@@ -1,0 +1,135 @@
+<br />
+<h3 class="page-header"> &nbsp; &nbsp; <i class="icon-cogs"></i> &nbsp; Manutenção de Produtos</h3>
+<!--===DashBoard===-->
+<div class="switch-board gray">
+    <div class="row-fluid">
+        <div class="span2">
+            <div class="board-widgets  btn-inverse small-widget span12">
+                <a href="<?= $this->url('admin-index',array('controller' => 'produto')); ?>">
+                    <span class="widget-icon icon-tag"></span>
+                    <span class="widget-label">Produtos</span>
+                </a>
+            </div>
+            
+        </div>
+        <div class="span4">
+            <ul class="clearfix switch-item">
+                <li>
+                    <a href="<?= $this->url('new', array('controller' => 'produto')); ?>" class="green">
+                        <i class="icon-file"></i>
+                        <span>Novo</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('edit', array('controller' => 'produto')); ?>" class="blue">
+                        <i class="icon-pencil"></i>
+                        <span>Editar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('delete', array('controller' => 'produto')); ?>" class="brown">
+                        <i class="icon-remove"></i>
+                        <span>Excluir</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="span2">
+            <div class="board-widgets btn-inverse small-widget span12">
+                <a href="<?= $this->url('admin-index',array('controller' => 'produto')); ?>">
+                    <span class="widget-icon icon-tags"></span>
+                    <span class="widget-label">Itens</span>
+                </a>
+            </div>
+            
+        </div>
+        <div class="span4">
+            <ul class="clearfix switch-item">
+                <li>
+                    <a href="<?= $this->url('new', array('controller' => 'itens')); ?>" class="green">
+                        <i class="icon-file"></i>
+                        <span>Novo</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('edit', array('controller' => 'itens')); ?>" class="blue">
+                        <i class="icon-pencil"></i>
+                        <span>Editar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('delete', array('controller' => 'itens')); ?>" class="brown">
+                        <i class="icon-remove"></i>
+                        <span>Excluir</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+</div>
+<!--===DashBoard===-->
+    
+    <!--===Conteúdo===-->
+<div class="switch-board gray">
+    <div class="row-fluid">
+        <div class="span1">&nbsp;</div>
+        <div class="span10">
+            <table class="table table-bordered table-striped table-hover table-paper">
+                <tr>
+                    <td>#</td>
+                    <td>Nome</td>
+                    <td>Preço</td>
+                    <td>Tipo</td>
+                    <td>Quantidade</td>
+                    <td>Info</td>
+                </tr>
+                <?php foreach($this->produto as $produto): ?>
+                <tr>
+                    <td><?= $produto->getId(); ?></td>
+                    <td><?= $produto->getNome(); ?></td>
+                    <td>R$ <?= $produto->getValorVenda(); ?></td>
+                    <td><?= $produto->getTipo(); ?></td>
+                    <td><?= $produto->getQuantidade(); ?></td>
+                    <td><a data-toggle="modal" data-target="#<?= $produto->getId() ?>" class="btn btn-inverse span12"><i class="icon-eye-open"></i> Detalhes</a></td>
+                </tr>
+                <?php endforeach; ?>
+            </table>
+                <?php foreach($this->produto as $produto): ?>
+                <div id="<?= $produto->getId(); ?>" class="modal hide fade">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3><?= $produto->getNome(); ?></h3>
+                    </div>
+                    <div class="modal-body">
+                        <h3>Itens do produto</h3>
+                        <ul>
+                        <?php foreach($produto->getProdutoItens() as $item): ?>
+                            <li><?= $item->getDescricao() ?></li>
+                        <?php endforeach; ?>
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Fechar x</a>
+                    </div>
+                </div>
+                
+                <?php endforeach; ?>
+
+
+            <script>
+            $(function() {
+              $(".paper-table").tablecloth({
+                  theme: "paper",
+                  striped: true,
+                  sortable: true,
+                  condensed: false
+              });
+            });
+            </script>
+        </div>
+        <div class="span1">&nbsp;</div>
+    </div>
+</div>
+<!--===Conteúdo===-->

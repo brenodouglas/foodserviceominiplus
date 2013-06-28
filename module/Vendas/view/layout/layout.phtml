@@ -1,0 +1,215 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>OminiPlus - Redes Fast Foods</title>        
+        <?php echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0') ?>
+
+        <!-- Le styles -->
+        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/images/favicon.ico'))
+                        ->prependStylesheet($this->basePath(). '/css/tablecloth.css')
+                        ->prependStylesheet($this->basePath() . '/css/chosen.css')
+                        ->prependStylesheet($this->basePath() . '/css/styles.css')
+                        ->prependStylesheet($this->basePath() . '/css/font-awesome.css')
+                        ->prependStylesheet($this->basePath() . '/css/bootstrap-responsive.css')
+                        ->prependStylesheet($this->basePath() . '/css/bootstrap.css')
+                ?>
+
+        <!-- Scripts -->
+        <?php echo $this->headScript()->prependFile($this->basePath() . '/js/html5.js', 'text/javascript', array('conditional' => 'lt IE 9',))
+                                      ->prependFile($this->basePath() . '/js/custom.js')
+                                      ->prependFile($this->basePath() . '/js/jquery.tablecloth.js')
+                                      ->prependFile($this->basePath() . '/js/chosen.jquery.js')
+                                      ->prependFile($this->basePath() . '/js/jquery.validate.js')
+                                      ->prependFile($this->basePath() . '/js/bootstrap.js')
+                                      ->prependFile($this->basePath() . '/js/jquery-ui-1.10.1.custom.min.js')
+                                      ->prependFile($this->basePath() . '/js/jquery.js')
+        ?>
+
+    </head>
+<body>
+    
+<div class="layout">
+    <div class="navbar navbar-inverse top-nav">
+        <div class="navbar-inner">
+            <span class="home-link">
+                <a href="index.php" class="icon-home"></a>
+            </span>
+            <a class="btn btn-inverse btn-large span2">Logo</a>
+            
+            <a class="btn btn-inverse pull-right btn-large" href="<?= $this->url('route-logout') ?>"><i class="icon-user"></i> Sair</a>
+            
+        </div>
+    </div>    
+    
+    <div class="leftbar leftbar-close clearfix">
+        <div class="admin-info clearfix">
+            <div class="admin-thumb">
+                    <i class="icon-user"></i>
+            </div>
+            <div class="admin-meta">
+                <?php if($this->UserIdentity('user')): ?>
+                <?php
+                    $user = $this->UserIdentity('user');
+                ?>
+                <ul>
+                    <li class="admin-username"><?php echo $user->getNome(); ?></li>
+                    <li>
+                        <a href="#" data-target="#modalUsuario" data-toggle="modal" >Ver Informações </a>
+                        <a href="<?= $this->url('route-logout') ?>"><i class="icon-lock"></i> Sair</a>
+                    </li>
+                </ul>
+                <?php endif; ?>
+            </div>
+        </div>
+        <?php if($this->UserIdentity('user')): ?>
+            <div class="modal hide fade" id="modalUsuario">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h3><?php echo $user->getNome(); ?></h3>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-hover table-striped">
+                        <tr>
+                            <td style="text-align: center;"><b>Nome</b></td>
+                            <td style="text-align: center;"><b>Cargo</b></td>
+                            <td style="text-align: center;"><b>Telefone</b></td>
+                        <tr>
+                            <td><?php echo $user->getNome(); ?></td>
+                            <td><?php echo $user->getCargo(); ?></td>
+                            <td><?php echo $user->getTelefone(); ?></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Fechar</a>
+                </div>
+            </div>
+        <?php endif; ?>
+        <div class="left-nav clearfix">
+            <div class="left-primary-nav">
+                <ul id="myTab">
+                    <li>
+                        <a  class="icon-desktop" data-original-title="Administração" href="#Administracao" ></a>
+                    </li>
+                    <li class="active">
+                        <a class="icon-shopping-cart" data-original-title="Vender" href="#Vender" ></a>
+                    </li>
+                    <li>
+                        <a class="icon-tasks" data-original-title="Pedidos" href="#Pedidos" ></a>
+                    </li>
+                    <li>
+                        <a class="icon-arrow-up" data-original-title="Entradas" ></a>
+                    </li>
+                    <li>
+                        <a class="icon-arrow-down" data-original-title="Saidas" ></a>
+                    </li>
+                    <li>
+                        <a class="icon-file" data-original-title="Relatórios" ></a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="tab-content">
+                <div class="tab-pane" id="Administracao">
+                    <div class="table-pane" style="text-align: center;">
+                        <h4 class="side-head">Administração</h4>
+
+                    </div>
+                    <div class="table-pane">
+                        <h4 class="side-head">
+                            <a class="btn" style="margin-left: 4px;">Manutenção do Sistema</a>
+                        </h4>
+                        <ul id="nav" class="accordion-nav" style="width: 208px;margin-left: 51px;">
+                            <li>
+                                <a href="<?= $this->url('admin-index',array('controller' => 'produto')) ?>">
+                                    <i class="icon-plus-sign-alt"></i> 
+                                    Produto
+                                    <span>Cadastrar, editar, excluir. </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= $this->url('admin-index',array('controller'=>'funcionario')); ?>">
+                                    <i class="icon-plus-sign-alt"></i> 
+                                    Funcionario
+                                    <span>Cadastrar, editar, excluir. </span>
+                                </a>
+                            </li>
+                        </ul>  
+                    </div>
+                </div>
+                <!--Acabou administração--->
+                    
+                    
+                <!--===Vender==-->
+                <div class="tab-pane active" id="Vender">
+                    <div class="table-pane" style="text-align: center;">
+                        <h4 class="side-head">Vender</h4>
+                    </div>
+                    <div class="table-pane">
+                        <h4 class="side-head">
+                            <a class="btn" style="margin-left: 4px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Realizar Vendas&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;</a>
+                        </h4>
+                        <ul id="nav" class="accordion-nav" style="width: 208px;margin-left: 51px;">
+                            <li>
+                                <a href="<?=$this->url('new',array('controller'=>'pedido')) ?>">
+                                    <i class="icon-plus-sign-alt"></i> 
+                                    Novo Pedido
+                                    <span>Cadastrar, editar, excluir. </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= $this->url('new',array('controller' => 'venda')); ?>">
+                                    <i class="icon-plus-sign-alt"></i> 
+                                    Nova Venda
+                                    <span>Cadastrar, editar, excluir. </span>
+                                </a>
+                            </li>
+                        </ul>   
+                    </div>
+                </div>
+                <!--===Vender==-->   
+                
+                <!--===Pedidos==-->
+                <div id="Pedidos" class="tab-pane">
+
+                    <div class="table-pane" style="text-align: center;">
+                        <h4 class="side-head">Pedidos</h4>
+
+                    </div>
+                    <div class="table-pane">
+                        <h4 class="side-head">
+                            <a class="btn" style="margin-left: 4px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Visualizar Pedidos&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;</a>
+                        </h4>
+                        <ul id="nav" class="accordion-nav" style="width: 208px;margin-left: 51px;">
+                                <li>
+                                    <a href="<?= $this->url('status-pedido', array('action' => 'andamento')); ?>">
+                                        <i class="icon-plus-sign-alt"></i> 
+                                        Pedidos em Andamento
+                                        <span>Visualizar. </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="<?= $this->url('status-pedido', array('action' => 'concluidos')); ?>">
+                                        <i class="icon-plus-sign-alt"></i> 
+                                        Pedidos Concluidos
+                                        <span>Visualizar. </span>
+                                    </a>
+                                </li>
+
+                        </ul>   
+                    </div>
+                </div>
+            </div>    
+        </div>
+</div>
+    <!--===Content===-->
+    <div style="float: left;margin-left: 270px;height: 87%;width: 78%;">
+        <?php echo $this->content; ?>
+    </div>
+    <!--===Content===-->
+    <?php echo $this->inlineScript() ?>
+</body>
+</html>

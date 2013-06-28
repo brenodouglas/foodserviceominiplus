@@ -1,0 +1,97 @@
+<br />
+<h3 class="page-header"> &nbsp; &nbsp; <i class="icon-cogs"></i> &nbsp; Manutenção de Terminais</h3>
+<!--===DashBoard===-->
+<div class="switch-board gray">
+    <div class="row-fluid">
+        <div class="span2">
+            <div class="board-widgets  btn-inverse small-widget span12">
+                <a href="<?= $this->url('admin-index',array('controller' => 'terminal')); ?>">
+                    <span class="widget-icon icon-tag"></span>
+                    <span class="widget-label">Terminal</span>
+                </a>
+            </div>
+            
+        </div>
+        <div class="span4">
+            <ul class="clearfix switch-item">
+                <li>
+                    <a href="<?= $this->url('new',array('controller' => 'terminal')); ?>" class="green">
+                        <i class="icon-file"></i>
+                        <span>Novo</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('edit',array('controller' => 'terminal')); ?>" class="blue">
+                        <i class="icon-pencil"></i>
+                        <span>Editar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('delete',array('controller' => 'terminal')); ?>" class="brown">
+                        <i class="icon-remove"></i>
+                        <span>Excluir</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+       
+    </div>    
+</div>
+<!--===DashBoard===-->
+
+<!--===ConteÃºdo===-->
+<div class="switch-board gray">
+    <div class="row-fluid">
+        <div class="span1">&nbsp;</div>
+        <div class="span10">
+            <form method="post" id="formProduto">
+                <table class="table table-bordered table-striped table-hover" style="background-color: #FFF;">
+                    <tr>
+                        <td colspan="2"><h4> &nbsp; <i class="icon-plus"></i> &nbsp;  Adicionar novo terminal</h4></td>
+                    </tr>
+                    <tr>
+                        <td class="span3" style="text-align: center;">Nome</td>
+                        <td><input type="text" class="span12" id="nome" name="nome" /></td>
+                    </tr>
+                    <tr>
+                        <td class="span3" style="text-align: center;">Tipo</td>
+                        <td><input type="text" class="span12" id="tipo" name="tipo" /></td>
+                    </tr>
+                    <tr>
+                        <td class="span3" style="text-align: center;">Ip</td>
+                        <td><input type="text" class="span12" id="ip" name="ip" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <input type="reset" class="btn span3" value="Limpar" />
+                            <input type="submit" class="btn btn-success span3" value="Salvar" />
+                        </td>
+                    </tr>
+                </table>
+            </form>
+                <!--===Adicionar nos Diagrama o campo tipo===-->
+
+                <script>
+                 $(function(){
+                     $('#formProduto').validate({
+                        rules : {
+                            nome       : 'required',
+                            tipo       : 'required',
+                            ip         : 'required'
+                        },
+                        messages : {
+                            nome       : 'Informe o nome do produto',
+                            tipo       : 'informe o tipo do produto',
+                            ip         : 'informe o ip do terminal'
+                        }
+                     });
+                 });
+
+
+                </script>
+        </div>
+        <div class="span1">&nbsp;</div>
+    </div>
+</div>
+<!--===ConteÃºdo===-->
+

@@ -1,0 +1,155 @@
+<br />
+<h3 class="page-header"> &nbsp; &nbsp; <i class="icon-tags"></i> &nbsp; Pedidos</h3>
+<div class="well">
+    <table class="table table-bordered table-hover table-striped">
+        <tr>
+            <td style="text-align: center;"><b>Senha</b></td>
+            <td style="text-align: center;"><b>Cliente</b></td>
+            <td style="text-align: center;"><b>Qtd. Produtos</b></td>
+            <td style="text-align: center;"><b>Valor Total</b></td>
+            <td style="text-align: center;"><b>Status</b></td>
+            <td style="text-align: center;"><b>Ver</b></td>
+            <td style="text-align: center;"><b>Ações</b></td>
+        </tr>
+        <?php if(count($this->pedidos) == 0): $modal = false;?>
+            <tr>
+                <td colspan="6" style="text-align: center;"><h4>Não possui pedidos em andamento!</h4></td>
+            </tr>
+        <?php else: $modal = true ?>
+        <?php endif; ?>
+        
+        <?php if($modal): ?>
+            <?php foreach($this->pedidos as $pedido): ?>
+            <tr class="<?= $pedido->getId(); ?>">
+                <?php 
+                    $total = 0;
+                    foreach($pedido->getProdutoHasPedido() as $produto){
+                        $total += $produto->getValor();
+                    }
+                ?>
+                <td>
+                    #<?=$pedido->getSenha(); ?>
+                </td>
+                <td>
+                    <?=$pedido->getCliente()->getNome() ?>
+                </td>
+                <td>
+                    <?= count($pedido->getProdutoHasPedido()); ?>
+                </td>
+                <td>
+                    R$ <?= str_pad( $total, 4, '0', STR_PAD_RIGHT ); ?>
+                </td>
+                <td>
+                    Em produção
+                </td>
+                <td class="span2">
+                    <a href="#" class="btn btn-inverse span2" data-toggle="modal" data-target="#<?= $pedido->getId(); ?>"><i class="icon-eye-open"></i>Ver</a>
+                </td>
+                <td class="span3">
+                    <a href="#" id="concluir" data-id="<?= $pedido->getId(); ?>" class="btn btn-success"><i class="icon-ok"></i> Concluir</a>
+                    <a href="#" id="excluir" data-id="<?= $pedido->getId(); ?>" class="btn btn-danger"><i class="icon-remove"></i> Deletar</a>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </table>
+</div>
+    <?php if($modal): ?>
+        <?php foreach($this->pedidos as $pedido): ?>
+            <div class="modal hide fade" id="<?= $pedido->getId(); ?>">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4><?= $pedido->getCliente()->getNome(); ?></h4>
+                </div>
+                <div class="modal-body">
+                    <?php foreach($pedido->getProdutoHasPedido() as $produto):  $ant = '';?>
+                            <?php $prod = $produto->getProduto()->getNome(); ?>
+                            <ul class="nav">
+                              <h3><?= $prod ?></h3>
+                                <?php foreach($produto->getProdutoItens() as $item): ?>
+                                    <li>
+                                        <?= $item->getItens()->getDescricao() ?>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                    <?php endforeach; ?>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn" data-dismiss="modal">Fechar [x]</a>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
+
+<div class="modal hide fade" id="modalPedidos">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Pedido #001</h3>
+  </div>
+  <div class="modal-body">
+      <table class="table table-bordered">
+          <tr>
+              <td colspan="2" style="text-align: center;background-color: whitesmoke;"><b>Meia Strogonoff</a></td>
+          </tr>
+          <tr>
+              <td> - </td>
+              <td> Arroz</td>
+          </tr>
+          <tr>
+              <td> - </td>
+              <td> Feijao</td>
+          </tr>
+          <tr>
+              <td> - </td>
+              <td> Strogonoff</td>
+          </tr>
+          <tr>
+              <td> - </td>
+              <td> Batata</td>
+          </tr>
+          <tr>
+              <td colspan="2" style="text-align: center;background-color: whitesmoke;"><b>Burguer New Duplo</a></td>
+          </tr>
+          <tr>
+              <td> - </td>
+              <td> Pão</td>
+          </tr>
+          <tr>
+              <td> - </td>
+              <td> Hamburguer</td>
+          </tr>
+          <tr>
+              <td> - </td>
+              <td> Batata</td>
+          </tr>
+          <tr>
+              <td> - </td>
+              <td> Refrigerante</td>
+          </tr>
+      </table>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Fechar</a>
+  </div>
+</div>
+
+<script>
+    $('#concluir').live('click',function(e){
+       e.preventDefault();
+       var id = parseInt($(this).attr('data-id'));
+       $.ajax({
+          type: 'post',
+          dataType: 'json',
+          url: '/pedidos/concluirpedido',
+          data: {id: id},
+          success: function(data){
+              if(data['data'] == '1'){
+                  alert("Pedido Concluido!");
+                  $('tr.'+id).remove();
+              }
+          }
+       });
+       
+    });
+</script>

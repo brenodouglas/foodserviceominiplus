@@ -1,0 +1,161 @@
+<br />
+<h3 class="page-header"> &nbsp; &nbsp; <i class="icon-shopping-cart"></i> &nbsp; Vender</h3>
+<form method="post">
+<div class="switch-board gray">
+    <div class="row-fluid">
+        <div class="span3">
+            <div class="board-widgets  btn-inverse small-widget span12">
+                <a>
+                    <span class="widget-icon icon-tag"></span>
+                    <span class="widget-label">Senha #001</span>
+                </a>
+            </div>
+            
+        </div>
+        
+            <div class="span3">
+                <div class="board-widgets  btn-info small-widget span12">
+                    <a href="?Area=Vender&Pagina=Pedido&Cliente=Novo">
+                        <span class="widget-icon icon-plus"></span>
+                        <span class="widget-label">Cliente Novo</span>
+                    </a>
+                </div>
+            </div>
+            <div class="span3">
+                <div class="board-widgets  btn-info small-widget span12">
+                    <a href="?Area=Vender&Pagina=Pedido&Cliente=Existente">
+                        <span class="widget-icon icon-user"></span>
+                        <span class="widget-label">Cliente Existente</span>
+                    </a>
+                </div>
+            </div>
+    </div>
+</div>
+
+<div class="well">
+    <div class="row-fluid">
+        <div class="span9">
+            <!--===Select Produtos===-->
+            <select data-placeholder="Selecione o produto..." class="chzn-select span12" tabindex="2">
+                    <option value=""></option>
+                    <optgroup label="Amburguer">
+                        <option value="">Burguer New Simples</option>
+                        <option value="">Burguer New Duplo</option>
+                        <option value="">Burguer New Triplo</option>
+                    </optgroup>
+                    <optgroup label="Jantas">
+                        <option value="">Janta Strogonoff</option>
+                        <option value="">Janta Bife</option>
+                        <option value="">Janta Frango</option>
+                        <option value="">Janta Porco</option>
+                    </optgroup>
+            </select>
+            <!--===Select Produtos===-->
+        </div>
+        <div class="span3">
+            <a class="btn btn-success span12"><i class="icon-plus"></i> Adicionar</a>
+        </div>
+    </div>
+</div>
+
+    <div class="well">
+        <div class="row-fluid">
+            <div class="span2">
+                Burguer New Duplo
+            </div>
+            <div class="span5">
+                <select data-placeholder="Selecione o Item do produto" multiple class="chzn-select span12" tabindex="8" name="itens[]">
+                        <option value="0"></option>
+                        <option value="1" selected>Pao</option>
+                        <option value="2" selected>Hamburguer</option>
+                        <option value="2">+Hamburguer</option>
+                        <option value="2">+Hamburguer</option>
+                        <option value="3" selected>Batata</option>
+                        <option value="4" selected>Refrigerante</option>
+                        <option value="4">Bacon</option>
+                        
+                </select>
+            </div>
+            <div class="span3">
+                R$ &nbsp; <input type="text" class="span9" value="6.50" />
+            </div>
+            <div class="span2">
+                <a class="btn btn-danger"><i class="icon-remove"></i> Remover</a>
+            </div>
+        </div>
+
+    </div>
+    
+    <div class="well">
+        <div class="row-fluid">
+            <div class="span2">
+                Janta com Strogonoff
+            </div>
+            <div class="span5">
+                <select data-placeholder="Selecione o Item do produto" multiple class="chzn-select span12" tabindex="8" name="itens[]">
+                        <option value="0"></option>
+                        <option value="1" selected>Arroz</option>
+                        <option value="2" selected>Feijão</option>
+                        <option value="2" selected>Farofa</option>
+                        <option value="2" selected>Salada</option>
+                        <option value="3" selected>Batata</option>
+                        <option value="4" >Refrigerante</option>
+                        <option value="4">Carne de Frango</option>
+                        <option value="4">Carne de Porco</option>
+                        <option value="4">Carne de Vaca</option>
+                        
+                </select>
+            </div>
+            <div class="span3">
+                R$ &nbsp; &nbsp; <input type="text" class="span9" value="5.00" />
+            </div>
+            <div class="span2">
+                <a class="btn btn-danger"><i class="icon-remove"></i> Remover</a>
+            </div>
+        </div>
+
+    </div>
+    
+    
+    <div class="well">
+        <table class="table table-bordered table-striped">
+            <tr>
+                <td style="text-align: center;">
+                    <b>Total</b>
+                </td>
+                <td style="text-align: center;">
+                    <b>Valor Pago</b>
+                </td>
+                <td style="text-align: center;">
+                    <b>Troco</b>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="span3">
+                    R$ &nbsp; <input type="text" class="span2" value="11.50" style="font-size: 16pt;color: red;" />
+                </td>
+                <td class="span3">
+                    R$ &nbsp; <input type="text" class="span2" value="20.00" />
+                </td>
+                <td class="span3">
+                    R$ &nbsp; <input type="text" class="span2" value="8.50" />
+                </td>
+                <td>
+                    <a class="btn btn-success span3"><i class="icon-save"></i> Salvar</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</form>
+<script>
+ 
+ 
+ $(function () {
+    $(".chzn-select").chosen();
+});
+
+
+ 
+</script>

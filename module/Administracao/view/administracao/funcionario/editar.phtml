@@ -1,0 +1,182 @@
+<br />
+<h3 class="page-header"> &nbsp; &nbsp; <i class="icon-cogs"></i> &nbsp; Manutenção de Funcionários</h3>
+<!--===DashBoard===-->
+<div class="switch-board gray">
+    <div class="row-fluid">
+        <div class="span2">
+            <div class="board-widgets  btn-inverse small-widget span12">
+                <a href="<?= $this->url('admin-index',array('controller' => 'funcionario')); ?>">
+                    <span class="widget-icon icon-tag"></span>
+                    <span class="widget-label">Funcionários</span>
+                </a>
+            </div>
+            
+        </div>
+        <div class="span4">
+            <ul class="clearfix switch-item">
+                <li>
+                    <a href="<?= $this->url('new',array('controller' => 'funcionario')); ?>" class="green">
+                        <i class="icon-file"></i>
+                        <span>Novo</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('edit', array('controller' => 'funcionario')); ?>" class="blue">
+                        <i class="icon-pencil"></i>
+                        <span>Editar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('delete',array('controller' => 'funcionario')); ?>" class="brown">
+                        <i class="icon-remove"></i>
+                        <span>Excluir</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+       
+    </div>    
+</div>
+<!--===DashBoard===-->
+
+<!--===Conteúdo===-->
+<div class="switch-board gray">
+    <div class="row-fluid">
+        <div class="span1">&nbsp;</div>
+        <div class="span10">
+            <form method="post" id="formProduto">
+                <table class="table table-bordered table-striped table-hover" style="background-color: #FFF;">
+                    <tr>
+                        <td colspan="2"><h4> &nbsp; <i class="icon-plus"></i> &nbsp;  Adicionar novo Funcionário</h4></td>
+                    </tr>
+                    <tr>
+                        <td class="span3" style="text-align: center;">Funcionário</td>
+                        <td>
+                            <!--===Select Produtos===-->
+                            <select data-placeholder="Selecione o funcionário..." class="chzn-select span12" name="id" id="funcionario" tabindex="2">
+                                    <option></option>
+                                    <?php foreach($this->funcionarios as $funcionario): ?>
+                                        <option value="<?= $funcionario->getId(); ?>"><?=$funcionario->getNome(); ?></option>
+                                    <?php endforeach; ?>
+                            </select>
+                            <div id="loadEdite" style="display: none;" >
+                                <img src="<?=$this->basePath();?>/images/ajax-loader.gif" />
+                            </div>
+                            <!--===Select Produtos===-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="span3" style="text-align: center;">Nome</td>
+                        <td><input type="text" class="span12" id="nome" name="nome" /></td>
+                    </tr>
+                    <tr>
+                        <td class="span3" style="text-align: center;">Login</td>
+                        <td><input type="text" class="span12" id="login" name="usuario" /></td>
+                    </tr>
+                    <tr>
+                        <td class="span3" style="text-align: center;">Senha</td>
+                        <td><input type="password" class="span12" id="senha" name="senha" /></td>
+                    </tr>
+                    <tr>
+                        <td class="span3" style="text-align: center;">Cargo</td>
+                        <td><input type="text" class="span12" id="nivel" name="cargo" /></td>
+                    </tr>
+                    <tr>
+                        <td class="span3" style="text-align: center;">Telefone</td>
+                        <td><input type="text" class="span12" id="telefone" name="telefone" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <input type="reset" class="btn span3" value="Limpar" />
+                            <input type="submit" class="btn btn-success span3" value="Salvar" />
+                            <div id="load" style="display: none;" >
+                                <img src="<?=$this->basePath();?>/images/ajax-loader.gif" />
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+
+            <div id="alert-success"></div>
+                <!--===Adicionar nos Diagrama o campo tipo===-->
+
+                <script>
+                 $(function(){
+                     $('#formProduto').validate({
+                        rules : {
+                            nome       : {
+                                required : true
+                            },
+                            login      : {required: true},
+                            nivel      : {required: true},
+                            telefone   : {required: true}
+                        },
+                        messages : {
+                            nome       : {required: 'Informe o nome do cliente'},
+                            login      : {required: 'Informe o login do cliente'},
+                            nivel      : {required: 'Informe o nivel do cliente'},
+                            telefone   : {required: 'Informe o telefone do cliente'}
+                        }
+                     });
+                 });
+                   /*====Select Box====*/
+                $(function () {
+                    $(".chzn-select").chosen();
+                    $(".chzn-select-deselect").chosen({
+                        allow_single_deselect: true
+                    });
+                });
+                
+                $('#funcionario').change(function(){
+                    var dados = $('#formProduto').serialize();
+                    $.ajax({
+                        url: '/funcionario/popula',
+                        data: dados,
+                        dataType: 'json',
+                        type: 'post',
+                        beforeSend: function(){
+                            $('#loadEdite').css('display','block');
+                        },
+                        success: function(data) {
+                            $('#loadEdite').css('display','none');
+                            $.each(data['data'],function(){
+                               $('input[name="nome"]').val(this['nome']);
+                               $('input[name="usuario"]').val(this['usuario']);
+                               $('input[name="cargo"]').val(this['cargo']);
+                               $('input[name="telefone"]').val(this['telefone']);
+                            });
+                        }
+                    });
+                    
+                    $('#formProduto').submit(function(e){
+                        e.preventDefault();
+                        var dados = $('#formProduto').serialize();
+                        $.ajax({
+                            type: 'post',
+                            data: dados,
+                            dataType: 'json',
+                            url: '/funcionario/edite',
+                            beforeSend: function(){
+                                $('#load').css('display','block');
+                            },
+                            success: function(data){
+                                $('#load').css('display','none');
+                                if(data['data']['valor'] == 0){
+                                    $('#alert-success').html("<div class='alert alert-error'> <button type='button' class='close' data-dismiss='alert'>&times;</button>Erro ao atualizar Funcionario, tente novamente!</div>");
+
+                                } else {
+                                    $('#alert-success').html("<div class='alert alert-success'> <button type='button' class='close' data-dismiss='alert'>&times;</button>Funcionario alterado com sucesso!</div>");
+                                    $('#formProduto').trigger('reset');
+                                }
+                            }
+                        });
+                        return false;
+                    });
+                });
+
+                </script>
+        </div>
+        <div class="span1">&nbsp;</div>
+    </div>
+</div>
+<!--===Conteúdo===-->

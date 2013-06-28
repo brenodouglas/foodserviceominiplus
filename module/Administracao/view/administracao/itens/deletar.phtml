@@ -1,0 +1,131 @@
+<br />
+<h3 class="page-header"> &nbsp; &nbsp; <i class="icon-cogs"></i> &nbsp; Manutenção de Produtos</h3>
+<!--===DashBoard===-->
+<div class="switch-board gray">
+    <div class="row-fluid">
+        <div class="span2">
+            <div class="board-widgets  btn-inverse small-widget span12">
+                <a href="<?= $this->url('admin-index',array('controller' => 'produto')); ?>">
+                    <span class="widget-icon icon-tag"></span>
+                    <span class="widget-label">Produtos</span>
+                </a>
+            </div>
+            
+        </div>
+        <div class="span4">
+            <ul class="clearfix switch-item">
+                <li>
+                    <a href="<?= $this->url('new', array('controller' => 'produto')); ?>" class="green">
+                        <i class="icon-file"></i>
+                        <span>Novo</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('edit', array('controller' => 'produto')); ?>" class="blue">
+                        <i class="icon-pencil"></i>
+                        <span>Editar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('delete', array('controller' => 'produto')); ?>" class="brown">
+                        <i class="icon-remove"></i>
+                        <span>Excluir</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="span2">
+            <div class="board-widgets btn-inverse small-widget span12">
+                <a href="<?= $this->url('admin-index',array('controller' => 'produto')); ?>">
+                    <span class="widget-icon icon-tags"></span>
+                    <span class="widget-label">Itens</span>
+                </a>
+            </div>
+            
+        </div>
+        <div class="span4">
+            <ul class="clearfix switch-item">
+                <li>
+                    <a href="<?= $this->url('new', array('controller' => 'itens')); ?>" class="green">
+                        <i class="icon-file"></i>
+                        <span>Novo</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('edit', array('controller' => 'itens')); ?>" class="blue">
+                        <i class="icon-pencil"></i>
+                        <span>Editar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('delete', array('controller' => 'itens')); ?>" class="brown">
+                        <i class="icon-remove"></i>
+                        <span>Excluir</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+</div>
+<!--===DashBoard===-->
+
+<!--===ConteÃºdo===-->
+<div class="switch-board gray">
+    <div class="row-fluid">
+        <div class="span1">&nbsp;</div>
+        <div class="span10">
+            <form method="post" id="formAtributo" action="/deletar/itens">
+
+                <table class="table table-bordered table-striped table-hover" style="background-color: #FFF;">
+                    <tr>
+                        <td colspan="2"><h4> &nbsp; <i class="icon-plus"></i> &nbsp;  Excluir Item Cadastrado</h4></td>
+                    </tr>
+                    <tr>
+                        <td class="span3" style="text-align: center;">Produto/Item</td>
+                        <td>
+                            <!--===Select Produtos===-->
+                            <select data-placeholder="Selecione o produto..." class="chzn-select span12" name="id" tabindex="2">
+                                    <option value=""></option>
+                                    <?php foreach($this->produtos as $produto): ?>
+                                    
+                                        <optgroup label="<?= $produto->getNome() ?>">
+                                            <?php foreach($produto->getItens() as $item): ?>
+                                                <option value="<?= $item->getId(); ?>"><?= $item->getDescricao(); ?></option>
+                                            <?php endforeach; ?>
+                                        </optgroup>
+                                    <?php endforeach; ?>
+                                    
+                            </select>
+                            <!--===Select Produtos===-->
+                        </td>
+                    </tr>
+                   <tr>
+                        <td colspan="2">
+                            <button type="submit" class="btn btn-danger span4 pull-right">Exluir</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <?php  if($this->enviado == true): ?>
+               <div class='alert alert-success'> 
+                   <button type='button' class='close' data-dismiss='alert'>&times;</button>
+                   Item apagado com sucesso!
+               </div>
+            <?php endif; ?>
+                <script>
+                 /*====Select Box====*/
+                $(function () {
+                    $(".chzn-select").chosen();
+                    $(".chzn-select-deselect").chosen({
+                        allow_single_deselect: true
+                    });
+                });
+
+                </script>
+        </div>
+        <div class="span1">&nbsp;</div>
+    </div>
+</div>
+<!--===ConteÃºdo===-->

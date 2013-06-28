@@ -1,0 +1,249 @@
+<br />
+<h3 class="page-header"> &nbsp; &nbsp; <i class="icon-cogs"></i> &nbsp; Manutenção de Produtos</h3>
+<!--===DashBoard===-->
+<div class="switch-board gray">
+    <div class="row-fluid">
+        <div class="span2">
+            <div class="board-widgets  btn-inverse small-widget span12">
+                <a href="<?= $this->url('admin-index',array('controller' => 'produto')); ?>">
+                    <span class="widget-icon icon-tag"></span>
+                    <span class="widget-label">Produtos</span>
+                </a>
+            </div>
+            
+        </div>
+        <div class="span4">
+            <ul class="clearfix switch-item">
+                <li>
+                    <a href="<?= $this->url('new', array('controller' => 'produto')); ?>" class="green">
+                        <i class="icon-file"></i>
+                        <span>Novo</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('edit', array('controller' => 'produto')); ?>" class="blue">
+                        <i class="icon-pencil"></i>
+                        <span>Editar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('delete', array('controller' => 'produto')); ?>" class="brown">
+                        <i class="icon-remove"></i>
+                        <span>Excluir</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="span2">
+            <div class="board-widgets btn-inverse small-widget span12">
+                <a href="<?= $this->url('admin-index',array('controller' => 'produto')); ?>">
+                    <span class="widget-icon icon-tags"></span>
+                    <span class="widget-label">Itens</span>
+                </a>
+            </div>
+            
+        </div>
+        <div class="span4">
+            <ul class="clearfix switch-item">
+                <li>
+                    <a href="<?= $this->url('new', array('controller' => 'itens')); ?>" class="green">
+                        <i class="icon-file"></i>
+                        <span>Novo</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('edit', array('controller' => 'itens')); ?>" class="blue">
+                        <i class="icon-pencil"></i>
+                        <span>Editar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('delete', array('controller' => 'itens')); ?>" class="brown">
+                        <i class="icon-remove"></i>
+                        <span>Excluir</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+</div>
+<!--===DashBoard===-->
+
+<!--===ConteÃºdo===-->
+<div class="switch-board gray">
+    <div class="row-fluid">
+        <div class="span1">&nbsp;</div>
+        <div class="span10">
+            <form method="post" id="formProduto">    
+                <table class="table table-bordered table-striped table-hover" style="background-color: #FFF;">
+                    <tr>
+                        <td colspan="2"><h4> &nbsp; <i class="icon-plus"></i> &nbsp;  Editar Produto Cadastrado</h4></td>
+                    </tr>
+                    <tr>
+                        <td class="span3" style="text-align: center;">Produto</td>
+                        <td>
+                            <!--===Select Produtos===-->
+                            <select data-placeholder="Selecione o produto..." class="chzn-select span12" name="id" id="select" tabindex="2">
+                                    <option value="" selected></option>
+                                    <?php 
+                                        foreach($this->produtos as $produto){
+                                            echo '<option value="'.$produto->getId().'">'.$produto->getNome().'</option>';
+                                        }
+                                    ?>
+                                    <optgroup label="Amburguer">
+                                    </optgroup>
+                                    
+                            </select>
+                            <!--===Select Produtos===-->
+                            <div id="loadEdite" style="display: none;" >
+                                <img src="<?=$this->basePath();?>/images/ajax-loader.gif" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="span3" style="text-align: center;">Nome</td>
+                        <td><input type="text" class="span12" id="nome" name="nome" /></td>
+                    </tr>
+                    <tr>
+                        <td class="span3" style="text-align: center;">Descrição</td>
+                        <td><input type="text" class="span12" id="descricao" name="descricao" /></td>
+                    </tr>
+                    <tr>
+                        <td class="span3" style="text-align: center;">Preço</td>
+                        <td><input type="text" class="span12" id="preco" name="valorVenda" /></td>
+                    </tr>
+                    <tr>
+                        <td class="span3" style="text-align: center;">Tipo</td>
+                        <td><input type="text" class="span12" id="tipo" name="tipo" /></td>
+                    </tr>
+                    <tr>
+                        <td class="span3" style="text-align: center;">Quantidade</td>
+                        <td><input type="text" class="span12" id="quantidade" name="quantidade" /></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <input type="reset" class="btn span3" value="Limpar" />
+                            <input type="submit" class="btn btn-success span3" value="Salvar" />
+                            <div id="load" style="display: none;" >
+                                <img src="<?=$this->basePath();?>/images/ajax-loader.gif" />
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <div id="alert-success"></div>
+                <script>
+                  $(function(){
+                     $('#formProduto').validate({
+                        rules: {
+                            preco: {
+                                required: true,
+                                number: true,
+                                minlength: 3
+                            },
+                            nome: {
+                                required: true
+                            },
+                            tipo: {
+                                required: true
+                            },
+                            quantidade: {
+                                required: true,
+                                number: true
+                            },
+                            descricao: {
+                                required: true,
+                                maxlength: 255
+                            }
+                        },
+                        messages: {
+                            preco: {
+                                required: 'O campo preço é obrigatório',
+                                number: 'Digite um numero válido',
+                                minlength: 'O campo deve ter no minimo 3 digito, ex: 2.10'
+                            },
+                            nome: {
+                                required: 'O campo nome é obrigatório'
+                            },
+                            tipo: {
+                                required: 'O campo tipo é obrigátorio'
+                            },
+                            quantidade: {
+                                required: 'O campo quantidade é obrigatório',
+                                number: 'Digite um numero válido'
+                            },
+                            descricao: {
+                                required: 'O campo descrição é obrigatório',
+                                maxlength: 'O campo deve ter no maximo 255 caracteres'
+                            }
+                        }
+                     });
+                 });
+                 /*====Select Box====*/
+                $(function () {
+                    $(".chzn-select").chosen();
+                    $(".chzn-select-deselect").chosen({
+                        allow_single_deselect: true
+                    });
+                });
+
+                $("#select").change(function(e){
+                    e.preventDefault;
+                    console.log('sucess');
+                    var dados = $('#formProduto').serialize();
+                    $.ajax({
+                        type: 'post',
+                        url: '/produto/popula',
+                        data: dados,
+                        dataType: 'json',
+                        beforeSend: function(){
+                          $('#loadEdite').css('display','block');  
+                        },
+                        success: function(data){
+                            $('#loadEdite').css('display','none'); 
+                            $.each(data['data'], function(){
+                                $('#nome').val(this['nome']);
+                                $('#descricao').val(this['descricao']);
+                                $('#preco').val(this['valor_venda']);
+                                $('#tipo').val(this['tipo']);
+                                $('#quantidade').val(this['quantidade']);
+                            });
+                            
+                        }
+                    });
+                    return false;
+                });
+                
+                
+                $('#formProduto').submit(function(e){
+                    e.preventDefault;
+                    var dados = $(this).serialize();
+                    $.ajax({
+                        type: 'post',
+                        url: '/produto/edite',
+                        data: dados,
+                        dataType: 'json',
+                        beforeSend: function(){
+                            $('#load').css('display','block');
+                        },
+                        success: function(data){
+                            $('#load').css('display','none');
+                            if(data['data']['valor'] == 0){
+                                $('#alert-success').html("<div class='alert alert-error'> <button type='button' class='close' data-dismiss='alert'>&times;</button>Erro ao cadastrar produto, tente novamente!</div>");
+
+                            } else {
+                                $('#alert-success').html("<div class='alert alert-success'> <button type='button' class='close' data-dismiss='alert'>&times;</button>Produto editado com sucesso!</div>");
+                                $('#formProduto').trigger('reset');
+                            }
+                        }
+                    });
+                    return false;
+                 });
+                </script>
+        </div>
+        <div class="span1">&nbsp;</div>
+    </div>
+</div>
+<!--===ConteÃºdo===-->

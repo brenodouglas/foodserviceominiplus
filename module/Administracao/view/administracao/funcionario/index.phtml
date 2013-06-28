@@ -1,0 +1,82 @@
+<br />
+<h3 class="page-header"> &nbsp; &nbsp; <i class="icon-cogs"></i> &nbsp; Manutenção de Funcionários</h3>
+<!--===DashBoard===-->
+<div class="switch-board gray">
+    <div class="row-fluid">
+        <div class="span2">
+            <div class="board-widgets  btn-inverse small-widget span12">
+                <a href="<?= $this->url('admin-index',array('controller' => 'funcionario')); ?>">
+                    <span class="widget-icon icon-tag"></span>
+                    <span class="widget-label">Funcionários</span>
+                </a>
+            </div>
+            
+        </div>
+        <div class="span4">
+            <ul class="clearfix switch-item">
+                <li>
+                    <a href="<?= $this->url('new',array('controller' => 'funcionario')); ?>" class="green">
+                        <i class="icon-file"></i>
+                        <span>Novo</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('edit', array('controller' => 'funcionario')); ?>" class="blue">
+                        <i class="icon-pencil"></i>
+                        <span>Editar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('delete',array('controller' => 'funcionario')); ?>" class="brown">
+                        <i class="icon-remove"></i>
+                        <span>Excluir</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+       
+    </div>    
+</div>
+<!--===DashBoard===-->
+<!--===Conteúdo===-->
+<div class="switch-board gray">
+    <div class="row-fluid">
+        <div class="span1">&nbsp;</div>
+        <div class="span10">
+            <table class="table table-bordered table-striped table-hover table-paper">
+                <tr>
+                    <td>#</td>
+                    <td>Nome</td>
+                    <td>Login</td>
+                    <td>Nivel</td>
+                    <td>Telefone</td>
+                    <td>Detalhes</td>
+                </tr>
+                <?php foreach($this->funcionarios as $funcionario): ?>
+                    <tr>
+                        <td><?= $funcionario->getId() ?></td>
+                        <td><?= $funcionario->getNome() ?></td>
+                        <td><?= $funcionario->getUsuario(); ?></td>
+                        <td><?= $funcionario->getCargo(); ?></td>
+                        <td><?= $funcionario->getTelefone(); ?></td>
+                        <td><a class="btn btn-inverse span12"><i class="icon-eye-open"></i> Detalhes</a></td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+
+            
+            <script>
+            $(function() {
+              $(".paper-table").tablecloth({
+                  theme: "paper",
+                  striped: true,
+                  sortable: true,
+                  condensed: false
+              });
+            });
+            </script>
+        </div>
+        <div class="span1">&nbsp;</div>
+    </div>
+</div>
+<!--===Conteúdo===-->

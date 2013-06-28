@@ -1,0 +1,87 @@
+<br />
+<h3 class="page-header"> &nbsp; &nbsp; <i class="icon-cogs"></i> &nbsp; Manutenção de Terminais</h3>
+<!--===DashBoard===-->
+<div class="switch-board gray">
+    <div class="row-fluid">
+        <div class="span2">
+            <div class="board-widgets  btn-inverse small-widget span12">
+                <a href="<?= $this->url('admin-index',array('controller' => 'terminal')); ?>">
+                    <span class="widget-icon icon-tag"></span>
+                    <span class="widget-label">Terminal</span>
+                </a>
+            </div>
+            
+        </div>
+        <div class="span4">
+            <ul class="clearfix switch-item">
+                <li>
+                    <a href="<?= $this->url('new',array('controller' => 'terminal')); ?>" class="green">
+                        <i class="icon-file"></i>
+                        <span>Novo</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('edit',array('controller' => 'terminal')); ?>" class="blue">
+                        <i class="icon-pencil"></i>
+                        <span>Editar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('delete',array('controller' => 'terminal')); ?>" class="brown">
+                        <i class="icon-remove"></i>
+                        <span>Excluir</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+       
+    </div>    
+</div>
+<!--===DashBoard===-->
+
+<!--===ConteÃºdo===-->
+<div class="switch-board gray">
+    <div class="row-fluid">
+        <div class="span1">&nbsp;</div>
+        <div class="span10">
+            <form method="post" id="formProduto">
+                <table class="table table-bordered table-striped table-hover" style="background-color: #FFF;">
+                    <tr>
+                        <td colspan="2"><h4> &nbsp; <i class="icon-plus"></i> &nbsp;  Excluir Produto Cadastrado</h4></td>
+                    </tr>
+                    <tr>
+                        <td class="span3" style="text-align: center;">Terminal</td>
+                        <td>
+                            <!--===Select Produtos===-->
+                            <select data-placeholder="Selecione o terminal..." class="chzn-select span12" tabindex="2">
+                                    <option></option>
+                                    <option value="">Terminal 1 - Administrador</option>
+                                    <option value="">Terminal 2 - Montagem</option>
+                            </select>
+                            <!--===Select Produtos===-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <a class="btn btn-danger span4 pull-right">Exluir</a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+
+                <script>
+                 /*====Select Box====*/
+                $(function () {
+                    $(".chzn-select").chosen();
+                    $(".chzn-select-deselect").chosen({
+                        allow_single_deselect: true
+                    });
+                });
+
+
+                </script>
+        </div>
+        <div class="span1">&nbsp;</div>
+    </div>
+</div>
+<!--===ConteÃºdo===-->

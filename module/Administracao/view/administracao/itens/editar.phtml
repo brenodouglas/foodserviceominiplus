@@ -1,0 +1,234 @@
+<br />
+<h3 class="page-header"> &nbsp; &nbsp; <i class="icon-cogs"></i> &nbsp; Manutenção de Produtos</h3>
+<!--===DashBoard===-->
+<div class="switch-board gray">
+    <div class="row-fluid">
+        <div class="span2">
+            <div class="board-widgets  btn-inverse small-widget span12">
+                <a href="<?= $this->url('admin-index',array('controller' => 'produto')); ?>">
+                    <span class="widget-icon icon-tag"></span>
+                    <span class="widget-label">Produtos</span>
+                </a>
+            </div>
+            
+        </div>
+        <div class="span4">
+            <ul class="clearfix switch-item">
+                <li>
+                    <a href="<?= $this->url('new', array('controller' => 'produto')); ?>" class="green">
+                        <i class="icon-file"></i>
+                        <span>Novo</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('edit', array('controller' => 'produto')); ?>" class="blue">
+                        <i class="icon-pencil"></i>
+                        <span>Editar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('delete', array('controller' => 'produto')); ?>" class="brown">
+                        <i class="icon-remove"></i>
+                        <span>Excluir</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="span2">
+            <div class="board-widgets btn-inverse small-widget span12">
+                <a href="<?= $this->url('admin-index',array('controller' => 'produto')); ?>">
+                    <span class="widget-icon icon-tags"></span>
+                    <span class="widget-label">Itens</span>
+                </a>
+            </div>
+            
+        </div>
+        <div class="span4">
+            <ul class="clearfix switch-item">
+                <li>
+                    <a href="<?= $this->url('new', array('controller' => 'itens')); ?>" class="green">
+                        <i class="icon-file"></i>
+                        <span>Novo</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('edit', array('controller' => 'itens')); ?>" class="blue">
+                        <i class="icon-pencil"></i>
+                        <span>Editar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('delete', array('controller' => 'itens')); ?>" class="brown">
+                        <i class="icon-remove"></i>
+                        <span>Excluir</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+</div>
+<!--===DashBoard===-->
+
+<!--===ConteÃºdo===-->
+<div class="switch-board gray">
+    <div class="row-fluid">
+        <div class="span1">&nbsp;</div>
+        <div class="span10">
+            
+            <form method="post" id="formAtributo">
+                <table class="table table-bordered table-striped table-hover" style="background-color: #FFF;">
+                    <tr>
+                        <td colspan="2"><h4> &nbsp; <i class="icon-plus"></i> &nbsp;  Editar Item Cadastrado</h4></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">Selicione o item</td>
+                        <td>
+                            <select data-placeholder="Selecione o item..." class="chzn-select span12" id="descricao" name="id" tabindex="2">
+                                    <option value=""></option>
+                                    <?php foreach($this->itens as $item): ?>
+                                        <option value="<?=$item->getId(); ?>">
+                                            <?= $item->getDescricao(); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                            </select>
+                            <div id="loadEdite" style="display: none;" >
+                                <img src="<?=$this->basePath();?>/images/ajax-loader.gif" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">Nome</td>
+                        <td>
+                            <input type="text" name="descricao" id="nome" class="span12" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="span3" style="text-align: center;">Produto</td>
+                        <td>
+                            <!--===Select Produtos===-->
+                            <select data-placeholder="Selecione o produto..." class="span12" name="produto" id="produto" tabindex="2">
+                                <option value=""></option>
+                                    <?php foreach($this->produtos as $produto): ?>
+                                        <option value="<?= $produto->getId() ?>"><?=$produto->getNome(); ?></option>
+                                    <?php endforeach; ?>
+                            </select>
+                            <!--===Select Produtos===-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">Valor</td>
+                        <td>
+                            <input type="text" name="valor" id="valor" class="span12" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <input type="reset" class="btn span3" value="Limpar" />
+                            <input type="submit" class="btn btn-success span3" value="Salvar" />
+                            <div id="load" style="display: none;" >
+                                <img src="<?=$this->basePath();?>/images/ajax-loader.gif" />
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <div id="alert-success">
+                
+            </div>
+            <script>
+             /*====Select Box====*/
+            
+            
+            $(document).ready(function(){
+                select();
+                $('#formAtributo').validate({
+                    rules: {
+                        valor: {
+                            required: true,
+                            number: true,
+                            minlength: 3
+                        },
+                        descricao: {
+                            required: true
+                        },
+                        produto: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        valor: {
+                            required: 'O campo valor é obrigatório',
+                            number: 'Digite um numero válido',
+                            minlength: 'O campo deve ter no minimo 3 digito, ex: 2.10'
+                        },
+                        descricao: {
+                            required: 'O campo nome é obrigatório'
+                        },
+                        produto: {
+                            required: 'É necessário selecionar um produto'
+                        }
+                    }
+                 });
+            });
+            
+            function select() {
+                $(".chzn-select").chosen();
+            };
+            
+            /*===Validacao===*/
+            $('#descricao').change(function(e){
+                e.preventDefault;  
+                    var dados = $('#formAtributo').serialize();
+                    $.ajax({
+                        type: 'post',
+                        url: '/itens/popula',
+                        data: dados,
+                        dataType: 'json',
+                        beforeSend: function(){
+                           $('#loadEdite').css('display','block'); 
+                        },
+                        success: function(data){
+                            $('#loadEdite').css('display','none');
+                            $.each(data['itens'], function(){
+                                $('#produto option[value="'+this['produto']['id']+'"]').attr('selected','selected');
+                                $('input[name="valor"]').val(this['valor']);
+                                $('input[name="descricao"]').val(this['descricao']);
+                            });
+                            $('#produto_chzn_o_3').attr('class', 'active-result result-selected');
+                        }
+                    });
+                    return false;
+            });
+            
+            $('#formAtributo').submit(function(e){
+                e.preventDefault;
+                var dados = $(this).serialize();
+                $.ajax({
+                    type: 'post',
+                    url: '/itens/edite',
+                    data: dados,
+                    dataType: 'json',
+                    beforeSend: function(){
+                      $('#load').css('display','block');  
+                    },
+                    success: function(data){
+                        $('#load').css('display','none');
+                        if(data['data']['valor'] == 0){
+                            $('#alert-success').html("<div class='alert alert-error'> <button type='button' class='close' data-dismiss='alert'>&times;</button>Erro ao atualizar Item, tente novamente!</div>");
+
+                        } else {
+                            $('#alert-success').html("<div class='alert alert-success'> <button type='button' class='close' data-dismiss='alert'>&times;</button>Item atualizado com sucesso!</div>");
+                            $('#formAtributo').trigger('reset');
+                        }
+                    }
+                });
+                return false;
+             });
+            </script>
+        </div>
+        <div class="span1">&nbsp;</div>
+    </div>
+</div>
+<!--===ConteÃºdo===-->

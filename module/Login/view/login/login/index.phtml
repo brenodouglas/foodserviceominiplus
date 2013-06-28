@@ -1,0 +1,100 @@
+<?php echo $this->doctype(); ?>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>OminiPlus - Redes Fast Foods</title>        
+        <?php echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0') ?>
+
+        <!-- Le styles -->
+        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/images/favicon.ico'))
+                        ->prependStylesheet($this->basePath(). '/css/tablecloth.css')
+                        ->prependStylesheet($this->basePath() . '/css/chosen.css')
+                        ->prependStylesheet($this->basePath() . '/css/styles.css')
+                        ->prependStylesheet($this->basePath() . '/css/font-awesome.css')
+                        ->prependStylesheet($this->basePath() . '/css/bootstrap-responsive.css')
+                        ->prependStylesheet($this->basePath() . '/css/bootstrap.css')
+                ?>
+
+        <!-- Scripts -->
+        <?php echo $this->headScript()->prependFile($this->basePath() . '/js/html5.js', 'text/javascript', array('conditional' => 'lt IE 9',))
+                                      ->prependFile($this->basePath() . '/js/custom.js')
+                                      ->prependFile($this->basePath() . '/js/jquery.tablecloth.js')
+                                      ->prependFile($this->basePath() . '/js/chosen.jquery.js')
+                                      ->prependFile($this->basePath() . '/js/jquery.validate.js')
+                                      ->prependFile($this->basePath() . '/js/bootstrap.js')
+                                      ->prependFile($this->basePath() . '/js/jquery-ui-1.10.1.custom.min.js')
+                                      ->prependFile($this->basePath() . '/js/jquery.js')
+        ?>
+
+    </head>
+<body>
+    
+<div class="layout">
+    <div class="navbar navbar-inverse top-nav">
+        <div class="navbar-inner">
+            <span class="home-link">
+                <a href="index.php" class="icon-home"></a>
+            </span>
+            <a class="btn btn-inverse btn-large span2">Logo</a>
+            
+            <a class="btn btn-inverse pull-right btn-large" href="<?= $this->url('admin-pedidos', array('controller' => 'login')) ?>"><i class="icon-user"></i> Entrar</a>
+            
+        </div>
+    </div>    
+    
+    <br /><br /><br /><br /><br />
+        <div class="span3">&nbsp;</div>
+        <div class="well span6">
+            <h4><i class="icon-lock"></i> &nbsp; Acesso ao sistema</h4>
+            <hr />
+
+            <form id="formLogin" method="post" action="/login">
+                <br />
+                <div class="controls input-icon">
+                    <i class=" icon-user-md"></i>
+                    <input type="text" class="input-block-level" id="inputUsuario" name="usuario" placeholder="Usuário">
+                </div>
+                <div class="controls input-icon">
+                    <i class=" icon-key"></i>
+                    <input type="password" class="input-block-level" id="inputSenha" name="senha" placeholder="Senha">
+                </div>
+                <br />
+                <div class="span9">
+                    <button class="btn btn-success span2" type="submit"><i class="icon-ok"></i> &nbsp; Entrar</button>    
+                    <button class="btn span2" type="reset"><i class="icon-"></i> &nbsp; Limpar</button>    
+                </div>
+          </form>
+            <br />
+            <hr />
+            <?php if($this->error): ?>
+                <div class="alert alert-error">
+                    <button type='button' class='close' data-dismiss='alert'>&times;</button>
+                    Login ou senha incorreto, tente novamente!
+                </div>
+            <?php endif; ?>
+        </div>
+        <div class="span3">&nbsp;</div>
+
+        <script>
+        $(function(){
+            $('#formLogin').validate({
+                rules: {
+                    inputUsuario : "required",
+                    inputSenha   : "required"
+                },
+                messages: {
+                    inputUsuario : "Informe seu nome de usu�rio!",
+                    inputSenha   : "Informe sua senha!"
+                }
+            });
+        })
+        </script>
+    <!--===Content===-->
+    <div style="float: left;margin-left: 270px;height: 87%;width: 78%;">
+        
+    </div>
+    <!--===Content===-->
+    <?php echo $this->inlineScript() ?>
+</body>
+</html>

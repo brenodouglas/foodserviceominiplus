@@ -1,0 +1,388 @@
+<br />
+<h3 class="page-header"> &nbsp; &nbsp; <i class="icon-shopping-cart"></i> &nbsp; Vender</h3>
+<div class="switch-board gray">
+    <div class="row-fluid">
+        <form id="adicionarCliente" method="post" >
+        <div class="span3">
+            <div class="board-widgets  btn-inverse small-widget span12">
+                <a>
+                    <span class="widget-icon icon-tag"></span>
+                    <?php 
+                        $senha = substr(uniqid(rand(0,1000),true),1,3); 
+                        $funcionario = $this->UserIdentity('user');
+                    ?>
+                    <span class="widget-label">Senha <?= $senha; ?></span>
+                    <input type="hidden" name="senha" value="<?= $senha ?>" />
+                </a>
+            </div>
+            
+        </div>
+        
+       
+        <!--======== opções de cliente ================ ---->
+            <div id="cliente-novo" >
+                <a class="btn btn-success span1 btn-large" style="margin-left: 20px;margin-top: 20px;" id="voltarEscolhaCliente"><i class="icon-angle-left"></i></a>
+                <input type="text" name="nome" placeholder=" Digite o nome do cliente.." class="span7" style="height: 90px;font-size: 25pt;" />
+                <input type="submit" value="Cadastrar" class="btn" />
+                <input type="hidden" name="funcionario" value="<?= $funcionario->getId() ?>" />
+                <img src="/images/loading.gif" id="load-cliente" style="display:none;"/>
+            </div>
+        </form>
+        <form id="clienteExistente">
+            <div id="cliente-existente" style="display: none;">
+                <a class="btn btn-success span1 btn-large" style="margin-left: 20px;margin-top: 20px;" id="voltarEscolhaClientee"><i class="icon-angle-left"></i></a>
+
+                <div style="margin-top: 20px; float: right;" class="span8">
+                    <select data-placeholder="Selecione o cliente..." class="chzn-select span12" tabindex="2" style="margin-right: 50px; width: 500px;">
+                            <option value=""></option>
+                            <option value="">Guilherme Augusto</option>
+                            <option value="">Breno Dougals</option>
+                            <option value="">Odenilton Lima</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+             <!--            <div class="span3" id="linkNovo">
+                <div class="board-widgets  btn-info small-widget span12">
+                    <a id="linkClienteNovo">
+                        <span class="widget-icon icon-plus"></span>
+                        <span class="widget-label">Cliente Novo</span>
+                    </a>
+                </div>
+            </div>
+            <div class="span3" id="linkExistente">
+                <div class="board-widgets  btn-info small-widget span12">
+                    <a id="clienteExistente">
+                        <span class="widget-icon icon-user"></span>
+                        <span class="widget-label">Cliente Existente</span>
+                    </a>
+                </div>
+            </div>-->
+    </div>
+</div>
+<form id="adicionarProduto" method="post">
+<div class="well">
+    <div class="row-fluid">
+            <div class="span9">
+                <!--===Select Produtos===-->
+                    <select data-placeholder="Selecione o produto..." name="id" class="chzn-select span12" tabindex="2">
+                            <option value=""></option>
+                            <?php foreach($this->produtos as $produto): ?>
+                                <option value="<?= $produto->getId() ?>">
+                                    <?= $produto->getNome(); ?>
+                                </option>
+                            <?php endforeach; ?>
+                    </select>
+                <!--===Select Produtos===-->
+            </div>
+            <div class="span3">
+                <a id="adicionarNovo" class="btn btn-success span12"><i class="icon-plus"></i> Adicionar</a>
+            </div>
+            <img src="/images/loading.gif" id="load-produto" style="display:none;"/>
+    </div>
+</div>
+</form>
+
+<div id="itensPedido">
+    
+</div>
+<form id="finalizarPedido" method="post">
+    <div class="well">
+        <table class="table table-bordered table-striped">
+            <tr>
+                <td style="text-align: center;">
+                    <b>Total</b>
+                </td>
+                <td style="text-align: center;">
+                    <b>Valor Pago</b>
+                </td>
+                <td style="text-align: center;">
+                    <b>Troco</b>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="span3">
+                    R$ &nbsp; <input type="text" name="valorTotal" class="valorTotal span2" value="" style="font-size: 16pt;color: red;" />
+                </td>
+                <td class="span3">
+                    R$ &nbsp; <input type="text" name="pago" class="span2" value="" />
+                </td>
+                <td class="span3">
+                    R$ &nbsp; <input type="text" name="troco" class="span2" value="" />
+                </td>
+                <td>
+                    <input type="submit" class="btn btn-success span3" value="Salva" />
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
+<script type="text/javascript">
+    $('#finalizarPedido').validate({
+        rules: {
+            valorTotal: {
+                required: true,
+                number: true
+            },
+            pago: {
+                required: true,
+                number: true
+            }
+        },
+        messages: {
+            valorTotal: {
+                required: "O campo é obrigatório",
+                number: "Digite um numero no campo"
+            },
+            pago: {
+                required: "O campo é obrigatório",
+                number: "Digite um numero no campo"
+            }
+        }
+    });
+    $('#finalizarPedido').submit(function(){
+        if(cliente){
+            if(produto){
+                $(this).submit();
+            } else {
+                alert("É necessário ter um produto cadastrado no pedido");
+                return false;
+            }
+        } else {
+           
+            alert("É necessário um cliente cadastrado");
+             return false;
+        }
+    });
+    $('input[name="pago"]').keypress(function(e){
+        var digito = String.fromCharCode(e.which);
+        var val = $('input[name="pago"]').val();
+        var numero = val+digito;
+        var pago = parseFloat(numero);
+        var total = parseFloat($('input[name="valorTotal"]').val());
+        if(!isNaN(total-pago)){
+            $('input[name="troco"]').val(pago-total);
+        } else {
+            alert("digite valores validos");
+        }
+    });
+    
+    var total_soma = 0.0;
+    var teste = 0;
+    var campo = new Array();
+    
+    function adicionarNovoProduto(indice,valor){
+        campo[indice] = parseFloat(valor);
+    }
+    
+    function SomaValItens(total,tamanho){
+        total_soma += total;
+        if(!isNaN($('input[name="valorTotal"').val())){
+            total = parseFloat($('input[name="valorTotal"').val());
+        } else {
+            total = 0;
+        }
+        teste = parseInt(tamanho);
+        $('input[name="valorTotal"]').val(total_soma+total);
+    }
+    
+    $('a.remove').live('click',function(e){
+        e.preventDefault();
+        var id = $(this).attr('id');
+        $('div[id="'+id+'"]').remove();
+        
+        campo[id] = 'x';
+        campo[id+'val'] = 'x';
+        calcularTotal();
+    });
+    
+    function calcularTotal(){
+        var total = 0;
+        var er = /^[0-9]+$/;
+        for(var i in campo){
+            if(er.test(campo[i])){
+                total += parseFloat($('input[id="'+i+'"]').val());
+            }
+        }
+        if(total == 0){
+            total_soma = 0.0;
+        }
+        $('input[name="valorTotal"]').val(total);  
+    }
+    
+    $('#itensPedido select').live('change',function(){
+        var nome = $(this).attr('id');
+        var total = parseFloat($('input[id="'+nome+'"]').val());
+        var array = $(this).val();
+        var ultimoValor = 0;
+        var tamanho = parseInt(campo[nome]);
+        for(i = (array.length-1); i >= tamanho; i--){
+            ultimoValor += parseFloat(array[i]);
+        }
+        if(campo[nome] <= array.length){
+            $('input[id="'+nome+'"]').val(campo[nome+'val']+ultimoValor);
+            calcularTotal();
+        }  else {
+            alert("Um item do produto completo foi retirado");
+        }
+    });
+    var cliente = false;
+    $('#adicionarCliente').live('submit',function(e){
+        e.preventDefault();
+        if(!cliente){
+            var dados = $(this).serialize();
+            $.ajax({
+                data: dados,
+                type: 'post',
+                dataType: 'json',
+                url: '/ajax/pedido/addcliente',
+                beforeSend: function(){
+                    $('#load-cliente').css('display','block');
+                },
+                success: function(data){
+                    $('#load-cliente').hide();
+                    $('#adicionarCliente input[name="nome"]').attr('disabled','true');
+                    $('#finalizarPedido').append('<input type="hidden" name="pedido" value="3"');
+                    alert("sucess");
+                }
+            });
+            cliente = true;
+        } 
+        return false;
+    });
+    var produto = false;
+    $('#adicionarProdutoPedido').live('submit',function(e){
+        e.preventDefault();
+        if(cliente){
+            var dados = new Array();
+            var i = 0;
+            $.each($(this).find('option').filter(":selected"), function(){
+                dados[i] = $(this).attr('data-value');
+                i++;
+            });
+
+            var valor = $(this).find('input[name="valor"]').val();
+            var produt = $(this).find('input[name="produto"]').val();
+            $(this).find('select').remove();
+            $(this).find('button[type="submit"]').attr('disabled','disabled');
+            $(this).find('button[type="submit"]').html('<i class="icon-ok"></i> Confirmado!');
+            $(this).find('a.remove').remove();
+            produto = true;
+            $.ajax({
+                url: '/ajax/pedido/addproduto',
+                type: 'post',
+                dataType: 'json',
+                data: {item: dados, valor: valor, produto: produt},
+                beforeSend: function(){
+                    $(this).find('img.load').css('display','block');
+                },
+                success: function(data){
+                    produto = true;
+                }
+            });
+           
+        } else {
+            alert("É necessário que o cliente seja cadastrado");
+        }
+        calcularTotal();
+        return false;
+    });
+    $("#adicionarNovo").click(function(e){
+        e.preventDefault();
+        var dados = $('#adicionarProduto').serialize();
+        
+        $.ajax({
+            type: 'post',
+            data: dados,
+            dataType: 'json',
+            url: '/pedido/adiciona',
+            beforeSend: function(){
+                $('#load-produto').css('display','block');
+            }, 
+            success: function(data){
+                $('#load-produto').css('display','none');
+                var html = "";
+                var valor_venda;
+                $.each(data['data'], function(){
+                    valor_venda = this['valor_venda'];
+                });
+                SomaValItens(valor_venda);
+                html += "<form id='adicionarProdutoPedido' action='/novo/pedido' method='post' >";
+                html += "<div class='well' id='produtoDoPedido"+total_soma+"'>";
+                html += "<div class='row-fluid'>";
+                html += "<div class='span2'>";
+                $.each(data['data'], function(){
+                    html += this['nome'];
+                    html += "<input type='hidden' name='produto' value='"+this['id']+"' />";
+                });
+                html += "</div>";
+                html += "<div class='span5'>";
+                html += "<select id='produtoDoPedido"+total_soma+"' data-placeholder='Selecione o Item do produto' multiple class='oi span12' tabindex='8' name='itens[]'>";
+                html += "<option value='0'></option>";
+                        $.each(data['itens'], function(){
+                           html += "<option value='"+this['valor']+"' data-value='"+this['id']+"' selected>"+this['descricao']+"</option>" 
+                        });
+                        $.each(data['itens'], function(){
+                           html += "<option value='"+this['valor']+"' data-value='"+this['id']+"'>+"+this['descricao']+"</option>" 
+                        });
+                html += "</select>";
+                html += "</div>";
+                html += "<div class='span2'>";
+                html += "R$ &nbsp; <input disabled type='text' name='valor' id='produtoDoPedido"+total_soma+"' class='span9' value='"+valor_venda+"0' />";
+                html += "</div>";
+                html += "<div class='span3'>";
+                html += "<button type='submit' class='btn btn-primary'><i class='icon-ok'></i> Confirmar</button>";
+                html += "<a id='produtoDoPedido"+total_soma+"' class='remove btn btn-danger'><i class='icon-remove'></i> Remover</a>";
+                html += "</div>";
+                html += '<img class="load" src="/images/loading.gif" style="display:none;"/>';
+                html += "</div>";
+                html += "</div>";
+                html += "</form>";
+                adicionarNovoProduto('produtoDoPedido'+String(total_soma), data['itens'].length);
+                adicionarNovoProduto('produtoDoPedido'+String(total_soma)+'val',parseFloat(valor_venda));
+                $('#itensPedido').append(html);
+                criarSelect(".oi");   
+                calcularTotal();  
+            }
+        });
+        
+        return false;
+    });
+    function criarSelect(classe){
+        $(classe).chosen();
+    }
+    $(function () {
+       $(".chzn-select").chosen();
+    });
+    $(function(){
+        $("#linkClienteNovo").click(function(e){
+            e.preventDefault();
+            $("#linkNovo").fadeOut("slow");
+            $("#linkExistente").fadeOut("slow");
+            $("#cliente-novo").fadeIn("slow");
+        });
+        $("#voltarEscolhaCliente").click(function(e){
+            e.preventDefault();
+            $("#cliente-novo").fadeOut("slow");
+            $("#cliente-existente").fadeOut("slow");
+            $("#linkNovo").fadeIn("slow");
+            $("#linkExistente").fadeIn("slow");
+        });
+        
+        $("#voltarEscolhaClientee").click(function(e){
+            e.preventDefault();
+            $("#cliente-novo").fadeOut("slow");
+            $("#cliente-existente").fadeOut("slow");
+            $("#linkNovo").fadeIn("slow");
+            $("#linkExistente").fadeIn("slow");
+        });
+        
+        $("#clienteExistente").click(function(e){
+            e.preventDefault();
+            $("#linkNovo").fadeOut("slow");
+            $("#linkExistente").fadeOut("slow");
+            $("#cliente-existente").fadeIn("slow");
+        });
+    });
+</script>

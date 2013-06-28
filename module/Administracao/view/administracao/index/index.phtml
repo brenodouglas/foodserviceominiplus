@@ -1,0 +1,153 @@
+<br />
+<h3 class="page-header"> &nbsp; &nbsp; <i class="icon-cogs"></i> &nbsp; Manutenção de Produtos</h3>
+<!--===DashBoard===-->
+<div class="switch-board gray">
+    <div class="row-fluid">
+        <div class="span2">
+            <div class="board-widgets  btn-inverse small-widget span12">
+                <a href="<?= $this->url('admin-produto'); ?>">
+                    <span class="widget-icon icon-tag"></span>
+                    <span class="widget-label">Produtos</span>
+                </a>
+            </div>
+            
+        </div>
+        <div class="span4">
+            <ul class="clearfix switch-item">
+                <li>
+                    <a href="<?= $this->url('admin-produto/new', array('controller' => 'produto')); ?>" class="green">
+                        <i class="icon-file"></i>
+                        <span>Novo</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('admin-produto/edit', array('controller' => 'produto')); ?>" class="blue">
+                        <i class="icon-pencil"></i>
+                        <span>Editar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('admin-produto/delete', array('controller' => 'produto')); ?>" class="brown">
+                        <i class="icon-remove"></i>
+                        <span>Excluir</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="span2">
+            <div class="board-widgets btn-inverse small-widget span12">
+                <a href="<?= $this->url('admin-produto'); ?>">
+                    <span class="widget-icon icon-tags"></span>
+                    <span class="widget-label">Itens</span>
+                </a>
+            </div>
+            
+        </div>
+        <div class="span4">
+            <ul class="clearfix switch-item">
+                <li>
+                    <a href="<?= $this->url('admin-produto/delete', array('controller' => 'itens')); ?>" class="green">
+                        <i class="icon-file"></i>
+                        <span>Novo</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('admin-produto/edit', array('controller' => 'itens')); ?>" class="blue">
+                        <i class="icon-pencil"></i>
+                        <span>Editar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= $this->url('admin-produto/delete', array('controller' => 'itens')); ?>" class="brown">
+                        <i class="icon-remove"></i>
+                        <span>Excluir</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+</div>
+<!--===DashBoard===-->
+    
+    <!--===Conteúdo===-->
+<div class="switch-board gray">
+    <div class="row-fluid">
+        <div class="span1">&nbsp;</div>
+        <div class="span10">
+            <table class="table table-bordered table-striped table-hover table-paper">
+                <tr>
+                    <td>#</td>
+                    <td>Nome</td>
+                    <td>Preço</td>
+                    <td>Tipo</td>
+                    <td>Quantidade</td>
+                    <td>Info</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Burguer New Simples</td>
+                    <td>R$ 5.00</td>
+                    <td>Hamburguer</td>
+                    <td>?</td>
+                    <td><a class="btn btn-inverse span12"><i class="icon-eye-open"></i> Detalhes</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Burguer New Duplo</td>
+                    <td>R$ 5.50</td>
+                    <td>Hamburguer</td>
+                    <td>?</td>
+                    <td><a class="btn btn-inverse span12"><i class="icon-eye-open"></i> Detalhes</a></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Burguer New Triplo</td>
+                    <td>R$ 6.00</td>
+                    <td>Hamburguer</td>
+                    <td>?</td>
+                    <td><a class="btn btn-inverse span12"><i class="icon-eye-open"></i> Detalhes</a></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Janta Strogonoff</td>
+                    <td>R$ 6.00</td>
+                    <td>Hamburguer</td>
+                    <td>?</td>
+                    <td><a class="btn btn-inverse span12"><i class="icon-eye-open"></i> Detalhes</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Janta Frango</td>
+                    <td>R$ 6.00</td>
+                    <td>Hamburguer</td>
+                    <td>?</td>
+                    <td><a class="btn btn-inverse span12"><i class="icon-eye-open"></i> Detalhes</a></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Janta Bife</td>
+                    <td>R$ 6.00</td>
+                    <td>Hamburguer</td>
+                    <td>?</td>
+                    <td><a class="btn btn-inverse span12"><i class="icon-eye-open"></i> Detalhes</a></td>
+                </tr>
+            </table>
+
+
+            <script>
+            $(function() {
+              $(".paper-table").tablecloth({
+                  theme: "paper",
+                  striped: true,
+                  sortable: true,
+                  condensed: false
+              });
+            });
+            </script>
+        </div>
+        <div class="span1">&nbsp;</div>
+    </div>
+</div>
+<!--===Conteúdo===-->
